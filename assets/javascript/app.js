@@ -10,6 +10,8 @@ var firebaseConfig = {
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
 
+  var database = firebase.database();
+
 //button for adding employees
 $("#add-train-btn").on("click", function(event){
   event.preventDefault();
@@ -17,17 +19,16 @@ $("#add-train-btn").on("click", function(event){
   //grab user input
   var trainName = $("#train-name-input").val().trim();
   var destination = $("#destination-input").val().trim();
+  var firstTrain = $("#first-train-input").val().trim();
   var frequency = $("#frequency-input").val().trim();
-  var nextArrival = $("#next-arrival-input").val().trim();
   
 
   //creates local "temp" objects for holding train data
   var newTrain = {
     name: trainName,
     dest: destination,
-    freq: frequency,
-    next: nextArrival,
-    away: minutesAway
+    first: firstTrain,
+    freq: frequency
   };
 
   //uploads employee data to the database
@@ -35,20 +36,21 @@ $("#add-train-btn").on("click", function(event){
 
   $("train-name-input").val("");
   $("destination-input").val("");
+  $("#first-train-input").val("");
   $("#frequency-input").val("");
-  $("#next-arrival-input").val("");
-  $("minutes-away-input").val("");
 })
 
 //create firebase event for adding trains to database
 //adds user input to DOM 
 
-database.ref().on("child_added", function(childSnapshot) {
+  database.ref().on("child_added", function(childSnapshot) {
   trainName = childSnapshot.val().name;
   destination = childSnapshot.val().dest;
+  firstTrain = childSnapshot.val().next;
   frequency = childSnapshot.val().freq;
-  nextArrival = childSnapshot.val().next;
  
+  var nextArrival = "first-train + frequency???"
+  var minutesAway = "current-time - next arrival"
 
 
   var newRow = $("<tr>").append (
@@ -59,6 +61,7 @@ database.ref().on("child_added", function(childSnapshot) {
     $("<td>").text(minutesAway)
   );
 
+  $("#train-table").append(newRow);
 
 
 
