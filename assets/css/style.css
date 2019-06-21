@@ -8,3 +8,8 @@ h1 {
     font-family: 'Righteous', cursive;
     font-size: 5em;
 }
+
+label {
+    display: inline-block;
+
+}
